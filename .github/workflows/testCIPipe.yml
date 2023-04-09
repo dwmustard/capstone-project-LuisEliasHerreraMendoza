@@ -1,0 +1,21 @@
+name: test CI Pipe
+
+on:
+  workflow_dispatch
+
+jobs:
+    test:
+        name: Test Job
+        runs-on: ubuntu-latest
+        steps:
+          uses: actions/checkout@v3
+        - name: Step Test
+          run: npm run test
+    build:
+        needs: [test]
+        name: Build Image Job
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: Build the Docker image
+          run: docker build . --file Dockerfile --tag capstone-project-image:$(date +%s)
