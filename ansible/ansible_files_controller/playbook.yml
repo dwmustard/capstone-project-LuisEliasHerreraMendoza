@@ -1,0 +1,13 @@
+- name: Capstone Project Ansible
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: Modify the index file
+      command: sed -i 's/World/DevOps/g' /home/ansible_controller/CapstoneProject/src/index.js
+
+    - name: Modify the test file
+      command: sed -i 's/World/DevOps/g' /home/ansible_controller/CapstoneProject/src/index.js
+
+    - name: Create container 
+      command: docker build --pull --rm -f "/home/ansible_controller/CapstoneProject/Dockerfile" -t capstoneproject:helloDevOps "."
