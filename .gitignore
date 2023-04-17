@@ -2,6 +2,5 @@
 # dependencies
 /node_modules
 /ansible/ansible_files_target/node_modules
-
 # production
 /build
