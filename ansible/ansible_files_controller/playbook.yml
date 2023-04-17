@@ -23,3 +23,9 @@
       ansible.builtin.command: npm start
       args:
         chdir: /home/ansible_controller/CapstoneProject
+      async: 1000
+      poll: 0
+      
+    - name: Ensure app is running
+      shell: ps aux | grep node
+      register: app_status
