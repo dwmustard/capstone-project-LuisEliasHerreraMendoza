@@ -1,13 +1,25 @@
 - name: Capstone Project Ansible
   hosts: all
-  become: yes
-  
+  become: true
+
   tasks:
-    - name: Modify the index file
-      command: sed -i 's/World/DevOps/g' /home/ansible_controller/CapstoneProject/src/index.js
+    - name: Modify the App file
+      command: sed -i 's/World!/DevOps!/g' /home/ansible_controller/CapstoneProject/src/App.js
 
-    - name: Modify the test file
-      command: sed -i 's/World/DevOps/g' /home/ansible_controller/CapstoneProject/src/index.js
+    - name: Modify the App.test file
+      command: sed -i 's/World!/DevOps!/g' /home/ansible_controller/CapstoneProject/src/App.test.js
 
-    - name: Create container 
-      command: docker build --pull --rm -f "/home/ansible_controller/CapstoneProject/Dockerfile" -t capstoneproject:helloDevOps "."
+    - name: Installing node dependecies
+      ansible.builtin.command: npm install
+      args:
+        chdir: /home/ansible_controller/CapstoneProject
+
+    - name: Running the tests
+      ansible.builtin.command: npm run test
+      args:
+        chdir: /home/ansible_controller/CapstoneProject
+    
+    - name: Starting the node app
+      ansible.builtin.command: npm start
+      args:
+        chdir: /home/ansible_controller/CapstoneProject

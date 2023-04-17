@@ -6,11 +6,11 @@ RUN apt-get update  -y \
     ssh \
     sshpass \
     sudo \
-    software-properties-common
+    software-properties-common \
+    curl
 
 RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - &&\
 apt-get install -y nodejs
-
 
 RUN useradd -rm -d /home/ansible_controller -s /bin/bash -g root -G sudo -u 1001 ansible_controller
 RUN echo ansible_controller:12345 | chpasswd
@@ -24,5 +24,7 @@ WORKDIR /home/ansible_controller
 COPY startup.sh .
 
 COPY . .
+
+EXPOSE 3000
 
 CMD ["/bin/bash", "/home/ansible_controller/startup.sh"]
