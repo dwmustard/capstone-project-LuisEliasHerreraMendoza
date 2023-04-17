@@ -1,0 +1,20 @@
+version: "3.9"  
+services:
+  ansible:
+    build: 
+      context: ./ansible_base_controller
+      dockerfile: Dockerfile
+    container_name: ansible_controller
+    volumes:
+      - type: bind
+        source: ./ansible_files_controller
+        target: /home/ansible_controller/ansible_files
+  target:
+    build: 
+      context: ./ansible_base_target
+      dockerfile: Dockerfile
+    container_name: ansible_target
+    volumes:
+      - type: bind
+        source: ./ansible_files_target
+        target: /home/ansible_controller/CapstoneProject

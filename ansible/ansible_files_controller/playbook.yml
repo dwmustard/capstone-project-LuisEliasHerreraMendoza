@@ -1,0 +1,31 @@
+- name: Capstone Project Ansible
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Modify the App file
+      command: sed -i 's/World!/DevOps!/g' /home/ansible_controller/CapstoneProject/src/App.js
+
+    - name: Modify the App.test file
+      command: sed -i 's/World!/DevOps!/g' /home/ansible_controller/CapstoneProject/src/App.test.js
+
+    - name: Installing node dependecies
+      ansible.builtin.command: npm install
+      args:
+        chdir: /home/ansible_controller/CapstoneProject
+
+    - name: Running the tests
+      ansible.builtin.command: npm run test
+      args:
+        chdir: /home/ansible_controller/CapstoneProject
+    
+    - name: Starting the node app
+      ansible.builtin.command: npm start
+      args:
+        chdir: /home/ansible_controller/CapstoneProject
+      async: 1000
+      poll: 0
+      
+    - name: Ensure app is running
+      shell: ps aux | grep node
+      register: app_status
